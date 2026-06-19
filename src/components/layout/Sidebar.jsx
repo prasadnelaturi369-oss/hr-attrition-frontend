@@ -17,8 +17,14 @@ import {
   X,
 } from "lucide-react";
 
-const Sidebar = ({ isOpen, setIsOpen, isCollapsed }) => {
-  const [activeItem, setActiveItem] = useState("Dashboard");
+const Sidebar = ({
+  isOpen,
+  setIsOpen,
+  isCollapsed,
+  onNavigate,
+  currentPage,
+}) => {
+  const [activeItem, setActiveItem] = useState(currentPage || "Dashboard");
 
   const menuItems = [
     { name: "Dashboard", icon: Home },
@@ -42,12 +48,19 @@ const Sidebar = ({ isOpen, setIsOpen, isCollapsed }) => {
     { name: "Table", icon: Grid },
   ];
 
+  const handleItemClick = (itemName) => {
+    setActiveItem(itemName);
+    if (onNavigate) {
+      onNavigate(itemName);
+    }
+  };
+
   const renderMenuItem = (item, isActive) => (
     <div
       className={`relative flex items-center py-2.5 rounded-lg cursor-pointer transition-all ${
         isActive ? "text-blue-600" : "text-gray-600 hover:bg-gray-50"
       }`}
-      onClick={() => setActiveItem(item.name)}
+      onClick={() => handleItemClick(item.name)}
       style={{
         paddingLeft: isCollapsed ? "0px" : "20px",
         marginLeft: isCollapsed ? "0px" : "0px",
@@ -55,12 +68,10 @@ const Sidebar = ({ isOpen, setIsOpen, isCollapsed }) => {
         justifyContent: isCollapsed ? "center" : "flex-start",
       }}
     >
-      {/* Blue vertical line at the complete left edge */}
       {isActive && (
         <div className="absolute left-0 top-0 h-full w-[4px] bg-blue-600 rounded-r"></div>
       )}
 
-      {/* Background color - separate from the line */}
       {isActive && (
         <div
           className="absolute inset-0 rounded-lg bg-blue-50"
@@ -94,7 +105,6 @@ const Sidebar = ({ isOpen, setIsOpen, isCollapsed }) => {
 
   return (
     <>
-      {/* Mobile overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
@@ -102,7 +112,6 @@ const Sidebar = ({ isOpen, setIsOpen, isCollapsed }) => {
         />
       )}
 
-      {/* Sidebar */}
       <div
         className={`fixed lg:static inset-y-0 left-0 z-50 bg-white transform transition-all duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -110,9 +119,7 @@ const Sidebar = ({ isOpen, setIsOpen, isCollapsed }) => {
           isCollapsed ? "w-16" : "w-64"
         }`}
       >
-        {/* Header with Close button for mobile - Centered */}
         <div className="flex items-center justify-center px-4 py-5 relative">
-          {/* Logo - Centered */}
           <div className="flex items-center">
             {!isCollapsed && (
               <span className="text-lg font-bold">
@@ -127,7 +134,6 @@ const Sidebar = ({ isOpen, setIsOpen, isCollapsed }) => {
             )}
           </div>
 
-          {/* Close button - absolute positioned on the right */}
           {isOpen && (
             <button
               onClick={() => setIsOpen(false)}
