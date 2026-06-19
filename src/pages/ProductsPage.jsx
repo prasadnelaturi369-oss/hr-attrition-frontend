@@ -1,17 +1,6 @@
 import React, { useState } from "react";
-import {
-  Search,
-  Plus,
-  Edit,
-  Trash2,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
 
 const ProductsPage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
   const [favorites, setFavorites] = useState([]);
 
   const products = [
@@ -19,7 +8,6 @@ const ProductsPage = () => {
       id: 1,
       name: "Apple Watch Series 4",
       price: 120.0,
-      rating: 5,
       reviews: 131,
       image:
         "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop",
@@ -30,7 +18,6 @@ const ProductsPage = () => {
       id: 2,
       name: "Apple Watch Series 4",
       price: 120.0,
-      rating: 5,
       reviews: 131,
       image:
         "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop",
@@ -41,7 +28,6 @@ const ProductsPage = () => {
       id: 3,
       name: "Apple Watch Series 4",
       price: 120.0,
-      rating: 5,
       reviews: 131,
       image:
         "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop",
@@ -52,7 +38,6 @@ const ProductsPage = () => {
       id: 4,
       name: "Apple Watch Series 4",
       price: 120.0,
-      rating: 5,
       reviews: 131,
       image:
         "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop",
@@ -63,7 +48,6 @@ const ProductsPage = () => {
       id: 5,
       name: "Apple Watch Series 4",
       price: 120.0,
-      rating: 5,
       reviews: 131,
       image:
         "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop",
@@ -74,7 +58,6 @@ const ProductsPage = () => {
       id: 6,
       name: "Apple Watch Series 4",
       price: 120.0,
-      rating: 5,
       reviews: 131,
       image:
         "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop",
@@ -82,38 +65,6 @@ const ProductsPage = () => {
       stock: 45,
     },
   ];
-
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-
-  // Pagination
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct,
-  );
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-
-  const renderStars = (rating) => {
-    return (
-      <div className="flex items-center gap-0.5">
-        {[...Array(5)].map((_, i) => (
-          <svg
-            key={i}
-            className={`w-4 h-4 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-        ))}
-      </div>
-    );
-  };
 
   const toggleFavorite = (productId) => {
     setFavorites((prev) =>
@@ -140,38 +91,37 @@ const ProductsPage = () => {
             Designer Dresses - Pick from trendy Designer Dress.
           </p>
 
-          <button className="mt-6 bg-orange-500 px-6 py-3 rounded-lg font-medium">
+          <button className="mt-6 bg-orange-500 hover:bg-orange-600 transition px-6 py-3 rounded-lg font-medium">
             Get Started
           </button>
         </div>
 
-        <button className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/30">
+        <button className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/30 hover:bg-white/40 transition">
           ❮
         </button>
 
-        <button className="absolute right-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/30">
+        <button className="absolute right-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/30 hover:bg-white/40 transition">
           ❯
         </button>
       </div>
 
-      {/* Products */}
+      {/* Products Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {products.map((product) => (
-          <div key={product.id} className="bg-white rounded-2xl p-4 shadow-sm">
+          <div
+            key={product.id}
+            className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition duration-300"
+          >
             <div className="relative">
               <img
                 src={product.image}
-                alt=""
+                alt={product.name}
                 className="w-full h-64 object-contain"
               />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-lg">{product.name}</h3>
 
               <button
                 onClick={() => toggleFavorite(product.id)}
-                className={`text-2xl transition duration-200 ${
+                className={`absolute top-3 right-3 text-2xl transition ${
                   favorites.includes(product.id)
                     ? "text-red-500"
                     : "text-gray-400 hover:text-red-500"
@@ -181,18 +131,31 @@ const ProductsPage = () => {
               </button>
             </div>
 
-            <p className="text-blue-500 font-bold">${product.price}</p>
+            <div className="mt-4">
+              <h3 className="font-semibold text-lg text-gray-800">
+                {product.name}
+              </h3>
 
-            <div className="flex items-center mt-2">
-              ⭐⭐⭐⭐⭐
-              <span className="ml-2 text-gray-400 text-sm">
-                ({product.reviews})
-              </span>
+              <p className="text-blue-600 font-bold text-xl mt-1">
+                ${product.price}
+              </p>
+
+              <div className="flex items-center mt-2">
+                <span className="text-yellow-400">★★★★★</span>
+                <span className="ml-2 text-sm text-gray-500">
+                  ({product.reviews})
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between mt-3 text-sm text-gray-500">
+                <span>{product.category}</span>
+                <span>Stock: {product.stock}</span>
+              </div>
+
+              <button className="w-full mt-4 bg-gray-100 hover:bg-gray-200 transition py-2.5 rounded-lg font-medium text-gray-700">
+                Edit Product
+              </button>
             </div>
-
-            <button className="mt-4 bg-gray-100 px-5 py-2 rounded-lg text-sm font-medium">
-              Edit Product
-            </button>
           </div>
         ))}
       </div>
