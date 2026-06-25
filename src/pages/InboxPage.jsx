@@ -12,7 +12,7 @@ const InboxPage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-gray-700 mb-6 capitalize">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">
         {currentView}
       </h1>
 

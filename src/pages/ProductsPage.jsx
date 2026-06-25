@@ -76,7 +76,7 @@ const ProductsPage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6 text-gray-700">Products</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Products</h1>
 
       {/* Banner */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white p-10 mb-8">

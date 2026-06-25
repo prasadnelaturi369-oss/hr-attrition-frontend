@@ -8,6 +8,7 @@ import CustomersCard from "../components/dashboard/CustomersCard";
 import ProductsPage from "./ProductsPage";
 import FavoritesPage from "./FavoritesPage";
 import InboxPage from "./InboxPage";
+import OrderListsPage from "./OrderListsPage";
 
 const Dashboard = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -40,18 +41,18 @@ const Dashboard = () => {
       case "Inbox":
         return <InboxPage />;
 
+      case "Order Lists":
+        return <OrderListsPage />;
+
       default:
         return (
           <>
-            {/* Dashboard Heading */}
-            <h1 className="text-3xl font-bold mb-6 text-gray-700">Dashboard</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Dashboard</h1>
 
-            {/* Revenue Chart */}
             <div className="gap-4 md:gap-6 mb-6">
               <RevenueChart />
             </div>
 
-            {/* Bottom Row */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
               <div className="lg:col-span-1">
                 <CustomersCard />

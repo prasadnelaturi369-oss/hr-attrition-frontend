@@ -76,7 +76,7 @@ const Favorites = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6 text-gray-700">Favorites</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Favorites</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {products.map((product) => (
