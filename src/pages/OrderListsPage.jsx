@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   format,
   startOfMonth,
@@ -168,11 +168,11 @@ const OrderListsPage = () => {
 
   const totalPages = Math.ceil(filteredOrders.length / perPage);
 
-  useMemo(() => {
-    if (currentPage > totalPages && totalPages > 0) {
-      setCurrentPage(1);
-    }
-  }, [filteredOrders, totalPages, currentPage]);
+useEffect(() => {
+  if (currentPage > totalPages && totalPages > 0) {
+    setCurrentPage(1);
+  }
+}, [totalPages, currentPage]);
 
   const currentOrders = useMemo(() => {
     const start = (currentPage - 1) * perPage;
