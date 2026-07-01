@@ -32,7 +32,7 @@ const Sidebar = ({
     { name: "Favorites", icon: Star },
     { name: "Inbox", icon: Inbox },
     { name: "Order Lists", icon: ShoppingBag },
-    { name: "Product Stock", icon: Package },
+    { name: "Product-Stock", icon: Package },
   ];
 
   const pagesItems = [
