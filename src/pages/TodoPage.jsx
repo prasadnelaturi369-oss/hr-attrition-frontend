@@ -111,10 +111,9 @@ export default function TodoPage() {
         clearInterval(timer);
       };
     }
-  }, [deleteWarning]);
+  }, [deleteWarning, permanentDelete]); // Added permanentDelete to dependencies
 
   const completedCount = tasks.filter((t) => t.completed).length;
-  const progress = tasks.length > 0 ? (completedCount / tasks.length) * 100 : 0;
 
   return (
     <div className="relative">

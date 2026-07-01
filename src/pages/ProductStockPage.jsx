@@ -42,7 +42,7 @@ const initialProducts = [
 
 export default function ProductStockPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [products, setProducts] = useState(initialProducts);
+  const [products] = useState(initialProducts);
 
   // Filter products based on search term
   const filteredProducts = products.filter((product) =>
