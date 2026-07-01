@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Plus,
   Star,
@@ -30,8 +30,10 @@ export default function TodoPage() {
 
   const [deleteWarning, setDeleteWarning] = useState(null);
   const [countdown, setCountdown] = useState(5);
-  const [deleteTimer, setDeleteTimer] = useState(null);
   const [pendingDeleteId, setPendingDeleteId] = useState(null);
+  
+  // Use ref to track timer without causing re-renders
+  const deleteTimerRef = useRef(null);
 
   const toggleStar = (id) => {
     setTasks(
@@ -76,28 +78,42 @@ export default function TodoPage() {
     setDeleteWarning(null);
     setPendingDeleteId(null);
     setCountdown(5);
-    if (deleteTimer) {
-      clearInterval(deleteTimer);
-      setDeleteTimer(null);
+    if (deleteTimerRef.current) {
+      clearInterval(deleteTimerRef.current);
+      deleteTimerRef.current = null;
     }
   };
 
+  // Use useCallback with no dependencies for permanentDelete
   const permanentDelete = useCallback((id) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     setDeleteWarning(null);
     setPendingDeleteId(null);
     setCountdown(5);
-    if (deleteTimer) {
-      clearInterval(deleteTimer);
-      setDeleteTimer(null);
+    if (deleteTimerRef.current) {
+      clearInterval(deleteTimerRef.current);
+      deleteTimerRef.current = null;
     }
-  }, [deleteTimer]);
+  }, []); // Empty dependency array - function never changes
 
   useEffect(() => {
     if (deleteWarning) {
+      // Clear any existing timer
+      if (deleteTimerRef.current) {
+        clearInterval(deleteTimerRef.current);
+        deleteTimerRef.current = null;
+      }
+
+      // Start new timer
       const timer = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
+            // Stop the timer before deleting
+            if (deleteTimerRef.current) {
+              clearInterval(deleteTimerRef.current);
+              deleteTimerRef.current = null;
+            }
+            // Delete the task
             permanentDelete(deleteWarning.id);
             return 0;
           }
@@ -105,10 +121,14 @@ export default function TodoPage() {
         });
       }, 1000);
 
-      setDeleteTimer(timer);
+      deleteTimerRef.current = timer;
 
+      // Cleanup on unmount or when deleteWarning changes
       return () => {
-        clearInterval(timer);
+        if (deleteTimerRef.current) {
+          clearInterval(deleteTimerRef.current);
+          deleteTimerRef.current = null;
+        }
       };
     }
   }, [deleteWarning, permanentDelete]);
