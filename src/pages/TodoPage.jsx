@@ -112,9 +112,6 @@ export default function TodoPage() {
       };
     }
   }, [deleteWarning, permanentDelete]);
-  const completedCount = tasks.filter((t) => t.completed).length;
-
-  const progress = tasks.length > 0 ? (completedCount / tasks.length) * 100 : 0;
 
   return (
     <div className="relative">
