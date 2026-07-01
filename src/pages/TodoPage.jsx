@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Plus,
   Star,
@@ -82,8 +82,8 @@ export default function TodoPage() {
     }
   };
 
-  const permanentDelete = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const permanentDelete = useCallback((id) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     setDeleteWarning(null);
     setPendingDeleteId(null);
     setCountdown(5);
@@ -91,7 +91,7 @@ export default function TodoPage() {
       clearInterval(deleteTimer);
       setDeleteTimer(null);
     }
-  };
+  }, [deleteTimer]);
 
   useEffect(() => {
     if (deleteWarning) {
@@ -111,9 +111,10 @@ export default function TodoPage() {
         clearInterval(timer);
       };
     }
-  }, [deleteWarning, permanentDelete]); // Added permanentDelete to dependencies
-
+  }, [deleteWarning, permanentDelete]);
   const completedCount = tasks.filter((t) => t.completed).length;
+
+  const progress = tasks.length > 0 ? (completedCount / tasks.length) * 100 : 0;
 
   return (
     <div className="relative">
